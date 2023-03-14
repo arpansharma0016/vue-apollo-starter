@@ -5,6 +5,6 @@ import apolloProvider from "./vue-apollo";
 Vue.config.productionTip = false;
 
 new Vue({
-  provide: apolloProvider.provide(),
+  apolloProvider,
   render: (h) => h(App),
 }).$mount("#app");
