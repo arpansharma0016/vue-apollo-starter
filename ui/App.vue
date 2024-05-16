@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <homeRouter v-if="!$store.state.token"></homeRouter>
+    <in-app v-else></in-app>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import homeRouter from "./components/home/homeRouter.vue";
 import { gql } from "apollo-boost";
+import InApp from './components/dashboard/inApp.vue';
 const GET_BOOKS = gql`
-  query ExampleQuery {
+  query Query {
     books {
       title
     }
@@ -18,22 +19,14 @@ const GET_BOOKS = gql`
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    homeRouter,
+    InApp,
   },
   async created() {
     console.log(await this.$apollo.query({ query: GET_BOOKS }));
-    console.log("env", process.env);
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

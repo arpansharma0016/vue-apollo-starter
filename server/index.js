@@ -1,31 +1,9 @@
-const { ApolloServer, gql } = require("apollo-server");
-
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
-  type Query {
-    books: [Book]
-  }
-`;
-
-const books = [
-  {
-    title: "The Awakening",
-    author: "Kate Chopin",
-  },
-  {
-    title: "City of Glass",
-    author: "Paul Auster",
-  },
-];
-
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};
+const { ApolloServer } = require("apollo-server");
+const connectDB = require("./db");
+const typeDefs = require("./typedefs");
+const resolvers = require("./resolvers");
+const models = require("./models");
+connectDB();
 
 const {
   ApolloServerPluginLandingPageLocalDefault,
@@ -34,6 +12,7 @@ const {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: { models },
   csrfPrevention: true,
   cache: "bounded",
   plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
